@@ -39,7 +39,9 @@ showTip = function(content) {
       _ref.dialog('destroy');
     }
   }
-  $shownDialog = $("<div class='diff-dialog'>" + content + "</div>").dialog();
+  $shownDialog = $("<div class='diff-dialog'>" + content + "</div>").dialog({
+    dialogClass: 'diffDialog'
+  });
   return false;
 };
 

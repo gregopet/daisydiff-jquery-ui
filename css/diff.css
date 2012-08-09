@@ -25,6 +25,9 @@ span.diff-tag-conflict {
 /*
  * Styles for the HTML Diff
  */
+div.diff-dialog {
+	font-size:14px;
+}
 span.diff-html-added {
   font-size: 100%;
   background-color: #ccffcc; /* light green */

@@ -17,7 +17,8 @@ window.tipA = (content) -> showTip(content)
 window.tipR = (content) -> showTip(content)
 showTip = (content) ->
 	$shownDialog?.dialog('close')?.dialog('destroy')
-	$shownDialog = $("<div class='diff-dialog'>#{content}</div>").dialog()
+	$shownDialog = $("<div class='diff-dialog'>#{content}</div>").dialog
+		dialogClass : 'diffDialog'
 	#put scrolling code here?
 	false
 
