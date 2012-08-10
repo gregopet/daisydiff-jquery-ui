@@ -19,7 +19,7 @@ $ ->
 	selectedElement = $("a[id|='first']")[0] #select first element
 
 	changedParts = $("span[class|='diff-html']")
-	changedParts.bind 'mouseenter keyboardselect', showTip
+	changedParts.bind 'mouseenter keyboardselect click', showTip
 		#.mousemove (e) ->
 		#	$shownDialog.dialog('option', 'position', [e.x, e.y])
 

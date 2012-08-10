@@ -44,7 +44,7 @@ $(function() {
   $(document).bind('keydown', handleShortcut);
   selectedElement = $("a[id|='first']")[0];
   changedParts = $("span[class|='diff-html']");
-  return changedParts.bind('mouseenter keyboardselect', showTip);
+  return changedParts.bind('mouseenter keyboardselect click', showTip);
 });
 
 showTip = function(ev) {
