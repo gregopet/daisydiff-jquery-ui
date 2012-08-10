@@ -23,6 +23,18 @@ span.diff-tag-conflict {
 }
 
 /*
+ * Arrow navigation
+ */
+.diff-goto-previous, .diff-goto-next {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background-color: #F80;
+}
+.diff-goto-previous { background-image: url(../images/diff-previous.gif) }
+.diff-goto-next { background-image: url(../images/diff-next.gif) }
+
+/*
  * Styles for the HTML Diff
  */
 div.diff-dialog {
