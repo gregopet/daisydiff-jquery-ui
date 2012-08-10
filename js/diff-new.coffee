@@ -19,13 +19,13 @@ $ ->
 	$(document).bind 'keydown', handleShortcut
 	selectedElement = $("a[id|='first']")[0] #select first element
 
-	changedParts = $("span[class|='diff-html'], #first-diff, #last-diff")
-	changedParts.bind 'mouseenter keyboardselect click', showTip
+	$("span[class|='diff-html']").bind 'mouseenter keyboardselect click', showTip
+	$('.diffpage-html-a').bind 'click', showTip
 
 #show & create a tooltip, scroll to it
 #ev either contains a span or a link with the parameter 'link-target'
 showTip = (ev) ->
-	$target = $(ev.target)
+	$target = $(ev.delegateTarget)
 	
 	#was it a link to the actual change marker?
 	href = $target.attr('href')

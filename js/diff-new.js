@@ -41,17 +41,16 @@ window.scrollToEvent = function(elem) {
 };
 
 $(function() {
-  var changedParts;
   $('window').bind('resize', updateOverlays);
   $(document).bind('keydown', handleShortcut);
   selectedElement = $("a[id|='first']")[0];
-  changedParts = $("span[class|='diff-html'], #first-diff, #last-diff");
-  return changedParts.bind('mouseenter keyboardselect click', showTip);
+  $("span[class|='diff-html']").bind('mouseenter keyboardselect click', showTip);
+  return $('.diffpage-html-a').bind('click', showTip);
 });
 
 showTip = function(ev) {
   var $contents, $target, changeDescription, changeType, change_id, change_number, dialogTop, href, next_id, previous_id, targetOffset, targetWidth, viewportBottom, viewportTop, _ref, _ref1;
-  $target = $(ev.target);
+  $target = $(ev.delegateTarget);
   href = $target.attr('href');
   if (href) {
     $target = $(href);
