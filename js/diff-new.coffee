@@ -1,4 +1,5 @@
-selectedElement = null #currently selected diff DOM element, needed for keyboard nav 
+selectedElement = null #currently selected diff DOM element, needed for keyboard nav
+highlightedChangeId = null #keep track of currently highlighted element
 $shownDialog = null #the currently displayed dialog (can be null!)
 prevKeys = [83, 37, 80] #s, <- and p move to previous change
 nextKeys = [68, 39, 78] #d, -> and n move to next change
@@ -18,7 +19,7 @@ $ ->
 	$(document).bind 'keydown', handleShortcut
 	selectedElement = $("a[id|='first']")[0] #select first element
 
-	changedParts = $("span[class|='diff-html']")
+	changedParts = $("span[class|='diff-html'], #first-diff, #last-diff")
 	changedParts.bind 'mouseenter keyboardselect click', showTip
 
 #show & create a tooltip, scroll to it
@@ -36,17 +37,11 @@ showTip = (ev) ->
 	change_id = $target.attr("changeId")
 	change_number = parseInt(/\d+/.exec(change_id)[0], 10) + 1
 
-	#prevent multi-changelog changes from moving the change summary dialog
-	if (selectedElement && change_id == $(selectedElement).attr('changeId')) then return false
-	
-	#remove any previously marked elements & mark this one
-	$('.diff-html-selected').removeClass('diff-html-selected') #easy way out, should be fast enough
-	$("span[changeId='#{change_id}']").addClass('diff-html-selected') #this may turn out to be slow for big documents?
+	#prevent multi-node changelogs from moving the change summary dialog
+	if (highlightedChangeId == change_id) then return false
 
 	#change the current selection (for keyboard nav)
 	selectedElement = $target[0]
-	$(selectedElement).addClass('diff-html-selected')
-
 
 	#what kind of dialog is it?
 	changeType = "Change"
@@ -82,16 +77,23 @@ showTip = (ev) ->
 	#hide first & last change arrows
 	$contents.find("a[href='#first-diff'], a[href='#last-diff']").remove()
 
-	#hide any previous dialogs, show the new one
+	#hide the old & show the new dialog
+	$shownDialog?.dialog('close')?.dialog('destroy')?.remove() #HAS to be called here because closing the dialog resets highlightedChangeId
 	targetOffset = $(ev.target).offset()
 	targetWidth = $(ev.target).width()
-	$shownDialog?.dialog('close')?.dialog('destroy')?.remove()
 	$shownDialog = $("<div class='diff-dialog'></div>").append($contents).dialog
 		minHeight   : 20
 		minWidth    : 50
 		width       : 'auto'
 		maxWidth    : 400
 		title       : changeType + " " + change_number
+		open        : () ->
+			$target.addClass('diff-html-selected')
+			$("span[changeId='#{change_id}']").addClass('diff-html-selected') #this may turn out to be slow for big documents?
+			highlightedChangeId = change_id
+		beforeClose : () ->
+			$('.diff-html-selected').removeClass('diff-html-selected') #easy way out, should be fast enough
+			highlightedChangeId = null
 
 	#set the dialog's position
 	$shownDialog.dialog("widget").position
