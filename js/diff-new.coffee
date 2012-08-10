@@ -66,7 +66,10 @@ showTip = (ev) ->
 	"""
 
 	#enable navigation by clicking arrows
-	$contents.find('.diffpage-html-a').click showTip 
+	$contents.find('.diffpage-html-a').click showTip
+
+	#hide first & last change arrows
+	$contents.find("a[href='#first-diff'], a[href='#last-diff']").remove()
 
 	#hide any previous dialogs, show the new one
 	targetOffset = $(ev.target).offset()

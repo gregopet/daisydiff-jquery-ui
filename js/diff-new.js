@@ -72,6 +72,7 @@ showTip = function(ev) {
   }
   $contents.append($("<table class='" + (changeType === 'Change' ? 'diff-tooltip-link-changed' : 'diff-tooltip-link') + "'>\n	<tr>\n		<td class='diff-tooltip-prev'>\n			<a class='diffpage-html-a diff-goto-previous' href='#" + previous_id + "' title='Go to previous.'></a>\n		</td>\n		<td>\n			&#160;<a href='#" + change_id + "'>#" + change_id + "</a>&#160;\n		</td>\n		<td class='diff-tooltip-next'>\n			<a class='diffpage-html-a diff-goto-next' href='#" + next_id + "' title='Go to next.'></a>\n		</td>\n	</tr>\n</table>"));
   $contents.find('.diffpage-html-a').click(showTip);
+  $contents.find("a[href='#first-diff'], a[href='#last-diff']").remove();
   targetOffset = $(ev.target).offset();
   targetWidth = $(ev.target).width();
   if ($shownDialog != null) {
