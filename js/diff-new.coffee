@@ -105,13 +105,11 @@ showTip = (ev) ->
 	dialogTop = $shownDialog.dialog("widget").offset().top
 	unless viewportBottom >= dialogTop >= viewportTop
 		$('html, body').animate {scrollTop : dialogTop}, 500
-		
 
-	
+	#prevent browser default
 	return false
-		
 
-# puts overlays over pictures
+# puts overlays over pictures - unchanged from it diff.js original
 updateOverlays = () ->
 	for image in document.getElementsByTagName("img")
 		if image.getAttribute('changeType') in ["diff-removed-image", "diff-added-image"]
