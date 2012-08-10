@@ -19,8 +19,8 @@ $ ->
 	$(document).bind 'keydown', handleShortcut
 	selectedElement = $("a[id|='first']")[0] #select first element
 
-	$("span[class|='diff-html']").bind 'mouseenter keyboardselect click', showTip
-	$('.diffpage-html-a').bind 'click', showTip
+	$("span[class|='diff-html']").bind 'mouseenter keyboardselect click', showTip #mouseenter might be undesired in change-rich cases
+	$('.diffpage-html-a').bind 'click', showTip #first and last case arrows should work on click, not mouseenter
 
 #show & create a tooltip, scroll to it
 #ev either contains a span or a link with the parameter 'link-target'
