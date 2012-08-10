@@ -20,8 +20,6 @@ $ ->
 
 	changedParts = $("span[class|='diff-html']")
 	changedParts.bind 'mouseenter keyboardselect click', showTip
-		#.mousemove (e) ->
-		#	$shownDialog.dialog('option', 'position', [e.x, e.y])
 
 #show & create a tooltip, scroll to it
 #ev either contains a span or a link with the parameter 'link-target'
