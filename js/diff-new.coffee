@@ -107,8 +107,11 @@ showTip = (ev) ->
 	viewportTop = $(window).scrollTop()
 	viewportBottom = viewportTop + $(window).height()
 	dialogTop = $shownDialog.dialog("widget").offset().top
-	unless viewportBottom >= dialogTop >= viewportTop
+	dialogBottom = dialogTop + $shownDialog.dialog("widget").height()
+	if dialogTop < viewportTop
 		$('html, body').animate {scrollTop : dialogTop}, {duration:500, queue:false}
+	else if viewportBottom < dialogBottom
+		$('html, body').animate {scrollTop : dialogBottom - (viewportBottom - viewportTop) + 20}, {duration:500, queue:false}
 
 	#prevent browser default
 	return false
