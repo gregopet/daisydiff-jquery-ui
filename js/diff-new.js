@@ -106,7 +106,10 @@ showTip = function(ev) {
   if (!((viewportBottom >= dialogTop && dialogTop >= viewportTop))) {
     $('html, body').animate({
       scrollTop: dialogTop
-    }, 500);
+    }, {
+      duration: 500,
+      queue: false
+    });
   }
   return false;
 };
