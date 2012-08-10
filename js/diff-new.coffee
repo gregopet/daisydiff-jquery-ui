@@ -1,4 +1,4 @@
-selectedElement = null #currently selected diff DOM element, needed for keyboard nav
+selectedElement = null #currently selected diff DOM element, needed for keyboard nav 
 $shownDialog = null #the currently displayed dialog (can be null!)
 prevKeys = [83, 37, 80] #s, <- and p move to previous change
 nextKeys = [68, 39, 78] #d, -> and n move to next change
@@ -32,23 +32,32 @@ showTip = (ev) ->
 	href = $target.attr('href')
 	if (href) then $target = $(href)
 
-	#change the current selection
-	selectedElement = $target[0]
-
-	#prepare dialog contents
+	#extract properties
 	previous_id = $target.attr("previous")
 	next_id = $target.attr("next")
 	change_id = $target.attr("changeId")
 	change_number = parseInt(/\d+/.exec(change_id)[0], 10) + 1
+	
+	#remove any previously marked elements & mark this one
+	$('.diff-html-selected').removeClass('diff-html-selected') #easy way out, should be fast enough
+	$("span[changeId='#{change_id}']").addClass('diff-html-selected') #this may turn out to be slow for big documents?
+
+	#change the current selection (for keyboard nav)
+	selectedElement = $target[0]
+	$(selectedElement).addClass('diff-html-selected')
+
 
 	#what kind of dialog is it?
 	changeType = "Change"
 	if $target.hasClass('diff-html-removed') then changeType = "Removal"
 	if $target.hasClass('diff-html-added') then changeType = "Addition"
 
+	#is there a description of the changes?
+	changeDescription = $target.attr("changes")
+
 	#create dialog content...
 	$contents = $("<div></div>")
-	if changeType == 'Change' then $contents.append $($target.attr("changes"))
+	if changeDescription then $contents.append $(changeDescription)
 	$contents.append $ """
 	<table class='#{if changeType == 'Change' then 'diff-tooltip-link-changed' else 'diff-tooltip-link'}'>
 		<tr>

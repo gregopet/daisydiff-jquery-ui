@@ -48,17 +48,20 @@ $(function() {
 });
 
 showTip = function(ev) {
-  var $contents, $target, changeType, change_id, change_number, dialogTop, href, next_id, previous_id, targetOffset, targetWidth, viewportBottom, viewportTop, _ref, _ref1;
+  var $contents, $target, changeDescription, changeType, change_id, change_number, dialogTop, href, next_id, previous_id, targetOffset, targetWidth, viewportBottom, viewportTop, _ref, _ref1;
   $target = $(ev.target);
   href = $target.attr('href');
   if (href) {
     $target = $(href);
   }
-  selectedElement = $target[0];
   previous_id = $target.attr("previous");
   next_id = $target.attr("next");
   change_id = $target.attr("changeId");
   change_number = parseInt(/\d+/.exec(change_id)[0], 10) + 1;
+  $('.diff-html-selected').removeClass('diff-html-selected');
+  $("span[changeId='" + change_id + "']").addClass('diff-html-selected');
+  selectedElement = $target[0];
+  $(selectedElement).addClass('diff-html-selected');
   changeType = "Change";
   if ($target.hasClass('diff-html-removed')) {
     changeType = "Removal";
@@ -66,9 +69,10 @@ showTip = function(ev) {
   if ($target.hasClass('diff-html-added')) {
     changeType = "Addition";
   }
+  changeDescription = $target.attr("changes");
   $contents = $("<div></div>");
-  if (changeType === 'Change') {
-    $contents.append($($target.attr("changes")));
+  if (changeDescription) {
+    $contents.append($(changeDescription));
   }
   $contents.append($("<table class='" + (changeType === 'Change' ? 'diff-tooltip-link-changed' : 'diff-tooltip-link') + "'>\n	<tr>\n		<td class='diff-tooltip-prev'>\n			<a class='diffpage-html-a diff-goto-previous' href='#" + previous_id + "' title='Go to previous.'></a>\n		</td>\n		<td>\n			&#160;<a href='#" + change_id + "'>#" + change_id + "</a>&#160;\n		</td>\n		<td class='diff-tooltip-next'>\n			<a class='diffpage-html-a diff-goto-next' href='#" + next_id + "' title='Go to next.'></a>\n		</td>\n	</tr>\n</table>"));
   $contents.find('.diffpage-html-a').click(showTip);
