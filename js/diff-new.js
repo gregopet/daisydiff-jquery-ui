@@ -70,6 +70,7 @@ showTip = function(ev) {
     changeType = "Addition";
   }
   changeDescription = $target.attr("changes");
+  changeDescription = changeDescription.replace(/<br\/><br\/>/g, '<br/>');
   $contents = $("<div></div>");
   if (changeDescription) {
     $contents.append($(changeDescription));

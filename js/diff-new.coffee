@@ -54,7 +54,8 @@ showTip = (ev) ->
 
 	#is there a description of the changes?
 	changeDescription = $target.attr("changes")
-
+	changeDescription = changeDescription.replace(/<br\/><br\/>/g, '<br/>') #daisy diff outputs double line breaks, presumably a bug?
+	
 	#create dialog content...
 	$contents = $("<div></div>")
 	if changeDescription then $contents.append $(changeDescription)
