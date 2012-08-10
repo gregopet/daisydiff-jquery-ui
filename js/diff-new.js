@@ -58,6 +58,9 @@ showTip = function(ev) {
   next_id = $target.attr("next");
   change_id = $target.attr("changeId");
   change_number = parseInt(/\d+/.exec(change_id)[0], 10) + 1;
+  if (selectedElement && change_id === $(selectedElement).attr('changeId')) {
+    return false;
+  }
   $('.diff-html-selected').removeClass('diff-html-selected');
   $("span[changeId='" + change_id + "']").addClass('diff-html-selected');
   selectedElement = $target[0];

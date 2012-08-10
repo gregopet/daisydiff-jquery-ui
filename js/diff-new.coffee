@@ -35,6 +35,9 @@ showTip = (ev) ->
 	next_id = $target.attr("next")
 	change_id = $target.attr("changeId")
 	change_number = parseInt(/\d+/.exec(change_id)[0], 10) + 1
+
+	#prevent multi-changelog changes from moving the change summary dialog
+	if (selectedElement && change_id == $(selectedElement).attr('changeId')) then return false
 	
 	#remove any previously marked elements & mark this one
 	$('.diff-html-selected').removeClass('diff-html-selected') #easy way out, should be fast enough
