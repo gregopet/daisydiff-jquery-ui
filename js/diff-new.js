@@ -125,7 +125,7 @@ showTip = function(ev) {
   return false;
 };
 
-updateOverlays = function() {
+window.updateOverlays = function() {
   var existingDivs, filter, image, _i, _len, _ref, _ref1, _results;
   _ref = document.getElementsByTagName("img");
   _results = [];

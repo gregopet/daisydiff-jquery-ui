@@ -114,7 +114,7 @@ showTip = (ev) ->
 	return false
 
 # puts overlays over pictures - unchanged from it diff.js original
-updateOverlays = () ->
+window.updateOverlays = () ->
 	for image in document.getElementsByTagName("img")
 		if image.getAttribute('changeType') in ["diff-removed-image", "diff-added-image"]
 			filter = null
