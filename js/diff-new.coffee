@@ -1,3 +1,12 @@
+###
+This is a rewrite of a part of the DaisyDiff library located at
+http://code.google.com/p/daisydiff/ and contains several unmodified
+files form it.
+
+All modifications are authored by Gregor Petrin and are released under the same Apache 2 licence.
+###
+
+
 selectedElement = null #currently selected diff DOM element, needed for keyboard nav
 highlightedChangeId = null #keep track of currently highlighted element
 $shownDialog = null #the currently displayed dialog (can be null!)

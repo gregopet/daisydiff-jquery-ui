@@ -1,5 +1,10 @@
 (function() {
-  var $shownDialog, handleShortcut, highlightedChangeId, nextKeys, prevKeys, selectedElement, showTip;
+  /*
+  This is a rewrite of a part of the DaisyDiff library located at
+  http://code.google.com/p/daisydiff/
+  
+  These modifications were made by Gregor Petrin and are released under the same Apache 2 licence.
+  */  var $shownDialog, handleShortcut, highlightedChangeId, nextKeys, prevKeys, selectedElement, showTip;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
