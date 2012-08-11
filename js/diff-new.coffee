@@ -12,6 +12,7 @@ window.constructToolTipC = (elem) -> true
 window.constructToolTipA = (elem) -> true
 window.constructToolTipR = (elem) -> true
 window.scrollToEvent = (elem) -> true
+window.htmlDiffInit = () -> true
 
 #set everything up on jQuery ready event
 $ ->

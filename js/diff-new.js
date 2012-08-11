@@ -40,6 +40,10 @@ window.scrollToEvent = function(elem) {
   return true;
 };
 
+window.htmlDiffInit = function() {
+  return true;
+};
+
 $(function() {
   $('window').bind('resize', updateOverlays);
   $(document).bind('keydown', handleShortcut);
