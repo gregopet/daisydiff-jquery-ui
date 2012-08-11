@@ -13,6 +13,10 @@ The original code has several issues:
 * doesn't use a library to abstract browser-specific tasks or DOM manipulation
 * the inline comments could be better
 
+## Future plans ##
+
+While my main reason for needing a rewrite was to add certain features for a proprietary app, there are certainly global improvements one could think of. One would be to generate an index of changes for easier navigation. If anyone has use for this project, I would be happy to accept feature suggestions!
+
 ## Technologies used ##
 
 This rewrite uses the [jQuery](http://jquery.com/) and [jQuery UI] (http://jqueryui.com/) libraries for the user interface. They bring in an API familiar to most javascript developers with solid documentation, theming and even plugin support, should it ever be needed.
