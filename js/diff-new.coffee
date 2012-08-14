@@ -43,7 +43,7 @@ $ ->
 			.bind "mouseup", (ev) ->
 				if (ev.which == 1) then leftButtonDown = false
 
-	$("span[class|='diff-html']").bind trackedEvents, showTip #mouseenter might be undesired in change-rich cases
+	$("span[class|='diff-html']").bind trackedEvents, showTip
 	$('.diffpage-html-a').bind 'click', showTip #first and last case arrows should work on click, not mouseenter
 
 #show & create a tooltip, scroll to it
