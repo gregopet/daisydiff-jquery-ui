@@ -6,12 +6,17 @@ files form it.
 All modifications are authored by Gregor Petrin and are released under the same Apache 2 licence.
 ###
 
+#configs
+config = 
+	useMouseEnter : true # show diff dialogs when mouse enters a changed area?
 
+#globals
 selectedElement = null #currently selected diff DOM element, needed for keyboard nav
 highlightedChangeId = null #keep track of currently highlighted element
 $shownDialog = null #the currently displayed dialog (can be null!)
 prevKeys = [83, 37, 80] #s, <- and p move to previous change
 nextKeys = [68, 39, 78] #d, -> and n move to next change
+leftButtonDown = false #keeps track of the left mouse button
 
 #functions to prevent default daisydiff from throwing exceptions
 window.tipC = (content) -> true
@@ -28,13 +33,23 @@ $ ->
 	$('window').bind 'resize', updateOverlays
 	$(document).bind 'keydown', handleShortcut
 	selectedElement = $("a[id|='first']")[0] #select first element
+	trackedEvents = 'keyboardselect click'
 
-	$("span[class|='diff-html']").bind 'mouseenter keyboardselect click', showTip #mouseenter might be undesired in change-rich cases
+	if config.useMouseEnter
+		trackedEvents += ' mouseenter'
+		$(document)
+			.bind "mousedown", (ev) ->
+				if (ev.which == 1) then leftButtonDown = true
+			.bind "mouseup", (ev) ->
+				if (ev.which == 1) then leftButtonDown = false
+
+	$("span[class|='diff-html']").bind trackedEvents, showTip #mouseenter might be undesired in change-rich cases
 	$('.diffpage-html-a').bind 'click', showTip #first and last case arrows should work on click, not mouseenter
 
 #show & create a tooltip, scroll to it
 #ev either contains a span or a link with the parameter 'link-target'
 showTip = (ev) ->
+	return if ev.type == 'mouseenter' and leftButtonDown #users are probably selecting text
 	$target = $(ev.delegateTarget)
 	
 	#was it a link to the actual change marker?
