@@ -69,6 +69,10 @@ span.diff-html-selected {
   cursor: pointer;
 }
 
+span.diff-html-selected[style] {
+  background-color: #FF8800 !important; /* override DOM style elements - we need this due to a Firefox hack, see JS code */
+}
+
 span.diff-html-selected img{
    border: 2px solid #FF8800; /* light orange */
 }

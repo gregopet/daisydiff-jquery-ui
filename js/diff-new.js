@@ -79,7 +79,11 @@ All modifications are authored by Gregor Petrin and are released under the same 
         }
       });
     }
-    $("span[class|='diff-html']").bind(trackedEvents, showTip);
+    $("span[class|='diff-html']").bind(trackedEvents, showTip).each(function() {
+      var backgroundColor;
+      backgroundColor = $(this).css('background-color');
+      return $(this).css('background-color', backgroundColor);
+    });
     return $('.diffpage-html-a').bind('click', showTip);
   });
 
