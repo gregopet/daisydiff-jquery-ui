@@ -14,7 +14,7 @@ All modifications are authored by Gregor Petrin and are released under the same 
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   config = {
-    useMouseEnter: true,
+    useMouseEnter: false,
     prevKeys: [83, 37, 80],
     nextKeys: [68, 39, 78],
     onIgnoreAreaChange: function() {
