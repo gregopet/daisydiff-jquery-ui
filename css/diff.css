@@ -149,6 +149,10 @@ td.diff-tooltip-next {
    text-align: right;
 }
 
+td.diff-name {
+  text-align:center;
+}
+
 table.diffpage-html-firstlast {
   width: 100%;
   Vertical-align: middle;
@@ -176,4 +180,34 @@ ul.changelist {
 
 body{
   margin-top: 0px;
+}
+
+/* Styles for ignore controls & areas */
+.diff-ignore-header {
+  font-size: 14px;
+  padding: 0;
+  margin:0;
+}
+.diff-ignore-toolbar {
+  padding: 0;
+  margin:0; 
+}
+.grow_ignore_area, .shrink_ignore_area {
+  font-size: 12px;
+}
+.grow_ignore_area {
+  /*background-image: url(../images/ignore_area_grow.png);*/
+}
+
+.shrink_ignore_area {
+  /*background-image: url(../images/ignore_area_shrink.png);*/
+}
+.ignored_area {
+  border: 1px solid black !important;
+}
+.ignored_area, .ignored_area * {
+  background-color: #806B6B !important;
+}
+.ignored_area span.diff-html-selected[style], span.ignored_area.diff-html-selected[style] {
+ background-color: #BE813B !important;
 }

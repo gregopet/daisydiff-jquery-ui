@@ -11,6 +11,13 @@ config =
 	useMouseEnter : true # show diff dialogs when mouse enters a changed area?
 	prevKeys : [83, 37, 80] #s, <- and p move to previous change
 	nextKeys : [68, 39, 78] #d, -> and n move to next change
+	onIgnoreAreaChange : () ->  #if defined, enables users to select diff areas to ignore
+		#example function, override this so it communicates to your backend
+		#in turn, your backend should put existing semicolon-separated ignore area
+		#expressions into a 'data-ignoreexpressions' tag on the document's body
+		ignoreAreas = []
+		$('.ignored_area').each () -> ignoreAreas.push domToXPath($(this))
+		console?.log 'Ignored areas have changed:', ignoreAreas.join(';')
 
 #globals
 selectedElement = null #currently selected diff DOM element, needed for keyboard nav
@@ -42,6 +49,15 @@ $ ->
 				if (ev.which == 1) then leftButtonDown = true
 			.bind "mouseup", (ev) ->
 				if (ev.which == 1) then leftButtonDown = false
+
+	if config.onIgnoreAreaChange
+		#read in any possible already semicolon-separated selected ignore areas
+		ignoreAreas = $('body').data('ignoreexpressions')
+		if ignoreAreas
+			areas = ignoreAreas.split(';')
+			xPathToDom(areas[0]) if areas.length #solves an IE bug
+			for area in areas
+				xPathToDom(area)?.addClass('ignored_area')
 
 	$("span[class|='diff-html']")
 		.bind( trackedEvents, showTip)
@@ -91,7 +107,7 @@ showTip = (ev) ->
 			<td class='diff-tooltip-prev'>
 				<a class='diffpage-html-a diff-goto-previous' href='##{previous_id}' title='Go to previous.'></a>
 			</td>
-			<td>
+			<td class='diff-name'>
 				&#160;<a href='##{change_id}'>##{change_id}</a>&#160;
 			</td>
 			<td class='diff-tooltip-next'>
@@ -106,6 +122,22 @@ showTip = (ev) ->
 
 	#hide first & last change arrows
 	$contents.find("a[href='#first-diff'], a[href='#last-diff']").remove()
+
+	if config.onIgnoreAreaChange
+		$contents.find('.diff-name').empty().append """
+		<p class='diff-ignore-header'>ignore</p>
+		<p class='diff-ignore-toolbar'>
+			<a href="#" class="grow_ignore_area" title="Grow ignore area">more</a>
+			<a href="#" class="shrink_ignore_area" title="Shrink ignore area">less</a>
+		</p>
+		"""
+		$contents.find('.grow_ignore_area').click () -> 
+			growIgnoreArea($target)
+			false
+		$contents.find('.shrink_ignore_area').click () -> 
+			shrinkIgnoreArea($target)
+			false
+
 
 	#hide the old & show the new dialog
 	$shownDialog?.dialog('close')?.dialog('destroy')?.remove() #HAS to be called here because closing the dialog resets highlightedChangeId
@@ -177,3 +209,39 @@ handleShortcut = (e) ->
 			target = selectedElement?.getAttribute("next")
 		if target
 			$("##{target}").trigger('keyboardselect')
+
+#Grows a diff's ignore area by expanding it to 1 more parent
+growIgnoreArea = ($target) ->
+	$nearestIgnoreArea = $target.closest('.ignored_area')
+	if $nearestIgnoreArea.is('body, html') then return #cannot ignore higher than whole document..
+	if $nearestIgnoreArea.length == 0 then $nearestIgnoreArea = $target
+	$nearestIgnoreArea.removeClass('ignored_area')
+	$nearestIgnoreArea.parent().addClass('ignored_area')
+	config.onIgnoreAreaChange()
+
+#Shrinks a diff's ignore area by shrinking it to 1 element lower in the ancestor chain
+shrinkIgnoreArea = ($target) ->
+	$nearestIgnoreArea = $target.parentsUntil('.ignored_area').last()
+	if $nearestIgnoreArea.is('html') or $nearestIgnoreArea.length == 0
+		if $target.parent().hasClass('ignored_area')
+			$target.parent().removeClass('ignored_area')
+			config.onIgnoreAreaChange()
+	else
+		$nearestIgnoreArea.addClass('ignored_area')
+		$nearestIgnoreArea.parent().removeClass('ignored_area')
+		config.onIgnoreAreaChange()
+
+#Produces an XPath to the provided element
+domToXPath = ($ignoreArea) ->
+	xslExpression = ''
+	until $ignoreArea.is('body')
+		previousSiblings = $ignoreArea.prevAll().length
+		xslExpression = "/*[#{previousSiblings + 1}]" + xslExpression
+		$ignoreArea = $ignoreArea.parent()
+	xslExpression = '.' + xslExpression
+
+#Returns a DOM element matching the xsl path
+xPathToDom = (xslExpression) -> 
+	elements = document.evaluate(xslExpression, document.body, null, XPathResult.ANY_TYPE, null)
+	targetElement = elements.iterateNext()
+	return $(targetElement)
