@@ -10,11 +10,13 @@ All modifications are authored by Gregor Petrin and are released under the same 
 
 
 (function() {
-  var $shownDialog, config, handleShortcut, highlightedChangeId, leftButtonDown, nextKeys, prevKeys, selectedElement, showTip,
+  var $shownDialog, config, handleShortcut, highlightedChangeId, leftButtonDown, selectedElement, showTip,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   config = {
-    useMouseEnter: true
+    useMouseEnter: true,
+    prevKeys: [83, 37, 80],
+    nextKeys: [68, 39, 78]
   };
 
   selectedElement = null;
@@ -22,10 +24,6 @@ All modifications are authored by Gregor Petrin and are released under the same 
   highlightedChangeId = null;
 
   $shownDialog = null;
-
-  prevKeys = [83, 37, 80];
-
-  nextKeys = [68, 39, 78];
 
   leftButtonDown = false;
 
@@ -212,9 +210,9 @@ All modifications are authored by Gregor Petrin and are released under the same 
     var target, _ref, _ref1;
     if (e.target.tagName.toLowerCase() !== 'input') {
       target = null;
-      if (_ref = e.keyCode, __indexOf.call(prevKeys, _ref) >= 0) {
+      if (_ref = e.keyCode, __indexOf.call(config.prevKeys, _ref) >= 0) {
         target = selectedElement != null ? selectedElement.getAttribute("previous") : void 0;
-      } else if (_ref1 = e.keyCode, __indexOf.call(nextKeys, _ref1) >= 0) {
+      } else if (_ref1 = e.keyCode, __indexOf.call(config.nextKeys, _ref1) >= 0) {
         target = selectedElement != null ? selectedElement.getAttribute("next") : void 0;
       }
       if (target) {

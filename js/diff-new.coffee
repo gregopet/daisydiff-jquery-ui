@@ -9,13 +9,13 @@ All modifications are authored by Gregor Petrin and are released under the same 
 #configs
 config = 
 	useMouseEnter : true # show diff dialogs when mouse enters a changed area?
+	prevKeys : [83, 37, 80] #s, <- and p move to previous change
+	nextKeys : [68, 39, 78] #d, -> and n move to next change
 
 #globals
 selectedElement = null #currently selected diff DOM element, needed for keyboard nav
 highlightedChangeId = null #keep track of currently highlighted element
 $shownDialog = null #the currently displayed dialog (can be null!)
-prevKeys = [83, 37, 80] #s, <- and p move to previous change
-nextKeys = [68, 39, 78] #d, -> and n move to next change
 leftButtonDown = false #keeps track of the left mouse button
 
 #functions to prevent default daisydiff from throwing exceptions
@@ -171,9 +171,9 @@ window.updateOverlays = () ->
 handleShortcut = (e) ->
 	unless e.target.tagName.toLowerCase() == 'input'
 		target = null
-		if e.keyCode in prevKeys
+		if e.keyCode in config.prevKeys
 			target = selectedElement?.getAttribute("previous")
-		else if e.keyCode in nextKeys
+		else if e.keyCode in config.nextKeys
 			target = selectedElement?.getAttribute("next")
 		if target
 			$("##{target}").trigger('keyboardselect')
