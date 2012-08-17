@@ -8,7 +8,7 @@ All modifications are authored by Gregor Petrin and are released under the same 
 
 #configs
 config = 
-	useMouseEnter : true # show diff dialogs when mouse enters a changed area?
+	useMouseEnter : false # show diff dialogs when mouse enters a changed area?
 	prevKeys : [83, 37, 80] #s, <- and p move to previous change
 	nextKeys : [68, 39, 78] #d, -> and n move to next change
 
